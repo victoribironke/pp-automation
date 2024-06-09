@@ -1,12 +1,10 @@
 import { adventurerNeutral } from "@dicebear/collection";
 import { createAvatar } from "@dicebear/core";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import sharp from "sharp";
 import { TwitterApi } from "twitter-api-v2";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const {} = req.body;
-
+export default async (res: NextApiResponse) => {
   const SECRETS = {
     apiKey: process.env.API_KEY!,
     apiKeySecret: process.env.API_KEY_SECRET!,
