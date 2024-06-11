@@ -25,7 +25,14 @@ const Home = () => {
       <HeadTemplate pic={twtImages.at(-1)} />
 
       <p className="text-white w-full max-w-4xl text-left mb-6 text-xl">
-        twitter images
+        <a
+          href="https://twitter.com/victoribironke_"
+          className="border-b pb-1"
+          target="_blank"
+        >
+          twitter
+        </a>{" "}
+        images
       </p>
 
       <section className="w-full max-w-4xl flex items-center justify-start gap-4 rounded-xl flex-wrap">
