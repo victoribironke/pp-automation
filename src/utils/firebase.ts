@@ -12,6 +12,6 @@ export const saveImageToFirebase = async (seed: string) => {
   await setDoc(doc(db, "twitter", seed), {
     seed,
     timestamp: serverTimestamp(),
-    type: "adventurerNeutral",
+    type: "lorelei",
   });
 };

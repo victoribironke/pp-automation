@@ -1,4 +1,4 @@
-import { adventurerNeutral } from "@dicebear/collection";
+import { lorelei } from "@dicebear/collection";
 import { createAvatar } from "@dicebear/core";
 import sharp from "sharp";
 
@@ -18,7 +18,7 @@ export const SECRETS = {
 export const getAvatar = () => {
   const seed = Date.now().toString();
 
-  const avatar = createAvatar(adventurerNeutral, {
+  const avatar = createAvatar(lorelei, {
     seed,
     flip: true,
   });
