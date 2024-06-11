@@ -16,19 +16,21 @@ const Home = () => {
 
       res.forEach((t) => twitterImages.push(t.data() as Item));
 
-      setTWTImages(twitterImages);
+      setTWTImages(twitterImages.sort((a, b) => (a.seed > b.seed ? 1 : -1)));
     })();
   }, []);
 
   return (
     <>
-      <HeadTemplate />
+      <HeadTemplate pic={twtImages.at(-1)} />
 
-      <p className="text-white w-full text-left mb-6 text-xl">Twitter images</p>
+      <p className="text-white w-full max-w-4xl text-left mb-6 text-xl">
+        twitter images
+      </p>
 
-      <section className="w-full max-w-6xl flex items-center justify-start gap-4 rounded-xl">
+      <section className="w-full max-w-4xl flex items-center justify-start gap-4 rounded-xl flex-wrap">
         {twtImages.map((t, i) => (
-          <Image seed={t.seed} key={i} type={t.type} />
+          <Image seed={t.seed} key={i} type={t.type} timestamp={t.timestamp} />
         ))}
       </section>
     </>
