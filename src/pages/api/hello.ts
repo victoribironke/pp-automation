@@ -3,6 +3,7 @@ import OAuth from "oauth-1.0a";
 import { createHmac } from "crypto";
 import { NextApiRequest, NextApiResponse } from "next";
 import { SECRETS, convertSvgToBase64, getAvatar } from "@/utils/helpers";
+import { firebaseLogin, saveImageToFirebase } from "@/utils/firebase";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { password } = req.query;
@@ -20,6 +21,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { avatar, seed } = getAvatar();
     const twitterAvatar = avatar.toString();
+    const image = await convertSvgToBase64(twitterAvatar);
+
+    const signedIn = await firebaseLogin(
+      SECRETS.firebaseEmail,
+      SECRETS.firebasePassword
+    );
+
+    if (signedIn) {
+      await saveImageToFirebase(seed);
+    }
 
     const oauth = new OAuth({
       consumer: { key: API_KEY, secret: API_SECRET_KEY },
@@ -33,8 +44,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       key: ACCESS_TOKEN,
       secret: ACCESS_TOKEN_SECRET,
     };
-
-    const image = await convertSvgToBase64(twitterAvatar);
 
     const request_data = {
       url: "https://api.twitter.com/1.1/account/update_profile_image.json",

@@ -11,6 +11,8 @@ export const SECRETS = {
   clientId: process.env.CLIENT_ID!,
   clientSecret: process.env.CLIENT_SECRET!,
   password: process.env.PASSWORD!,
+  firebaseEmail: process.env.FIREBASE_EMAIL!,
+  firebasePassword: process.env.FIREBASE_PASSWORD!,
 };
 
 export const getAvatar = () => {
@@ -31,3 +33,8 @@ export const convertSvgToBase64 = async (avatar: string) => {
 
   return image;
 };
+
+export const classNames = (...classes: (string | number | boolean)[]) =>
+  classes.filter(Boolean).join(" ");
+
+export const formatNumber = (num: number) => num.toLocaleString("en-US");
