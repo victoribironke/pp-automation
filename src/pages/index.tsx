@@ -29,6 +29,7 @@ const Home = () => {
           href="https://twitter.com/victoribironke_"
           className="border-b pb-1"
           target="_blank"
+          rel="noreferrer"
         >
           twitter
         </a>{" "}
