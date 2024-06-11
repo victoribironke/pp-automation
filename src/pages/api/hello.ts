@@ -1,42 +1,25 @@
-import { adventurerNeutral } from "@dicebear/collection";
-import { createAvatar } from "@dicebear/core";
 import axios from "axios";
+import OAuth from "oauth-1.0a";
 import { createHmac } from "crypto";
 import { NextApiRequest, NextApiResponse } from "next";
-import OAuth from "oauth-1.0a";
-import sharp from "sharp";
+import { SECRETS, convertSvgToBase64, getAvatar } from "@/utils/helpers";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { password } = req.query;
 
-  if (password !== process.env.PASSWORD) {
+  if (password !== SECRETS.password) {
     res.status(500).json({ error: "Wrong or missing password" });
     return;
   }
-
-  const SECRETS = {
-    apiKey: process.env.API_KEY!,
-    apiKeySecret: process.env.API_KEY_SECRET!,
-    bearerToken: process.env.BEARER_TOKEN!,
-    accessToken: process.env.ACCESS_TOKEN!,
-    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET!,
-    clientId: process.env.CLIENT_ID!,
-    clientSecret: process.env.CLIENT_SECRET!,
-  };
 
   const API_KEY = SECRETS.apiKey;
   const API_SECRET_KEY = SECRETS.apiKeySecret;
   const ACCESS_TOKEN = SECRETS.accessToken;
   const ACCESS_TOKEN_SECRET = SECRETS.accessTokenSecret;
 
-  const getAvatar = () =>
-    createAvatar(adventurerNeutral, {
-      seed: Date.now().toString(),
-      flip: true,
-    });
-
   try {
-    const twitterAvatar = getAvatar().toString();
+    const { avatar, seed } = getAvatar();
+    const twitterAvatar = avatar.toString();
 
     const oauth = new OAuth({
       consumer: { key: API_KEY, secret: API_SECRET_KEY },
@@ -51,9 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       secret: ACCESS_TOKEN_SECRET,
     };
 
-    const svgBuffer = Buffer.from(twitterAvatar);
-    const buffer = await sharp(svgBuffer).png().toBuffer();
-    const image = buffer.toString("base64");
+    const image = await convertSvgToBase64(twitterAvatar);
 
     const request_data = {
       url: "https://api.twitter.com/1.1/account/update_profile_image.json",
@@ -80,6 +61,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json({ data: "Successful" });
   } catch (e) {
     console.error("Error updating profile image", e);
+
     res.status(500).json({ error: "An error occured" });
   }
 };
