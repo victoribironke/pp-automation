@@ -53,23 +53,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     };
 
-    const headers = {
-      ...oauth.toHeader(oauth.authorize(request_data, token)),
-      "Content-Type": "application/x-www-form-urlencoded",
-    };
-
     const response = await axios({
       url: request_data.url,
       method: request_data.method,
-      headers,
+      headers: {
+        ...oauth.toHeader(oauth.authorize(request_data, token)),
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
       data: new URLSearchParams(request_data.data).toString(),
     });
 
     console.log("Profile image updated successfully", response.data);
 
     res.status(200).json({ data: "Successful" });
-  } catch (e) {
-    console.error("Error updating profile image", e);
+  } catch (e: any) {
+    console.error("Error updating profile image", e.response.data);
 
     res.status(500).json({ error: "An error occured" });
   }

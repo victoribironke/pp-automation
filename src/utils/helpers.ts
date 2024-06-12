@@ -10,9 +10,16 @@ export const SECRETS = {
   accessTokenSecret: process.env.ACCESS_TOKEN_SECRET!,
   clientId: process.env.CLIENT_ID!,
   clientSecret: process.env.CLIENT_SECRET!,
+
   password: process.env.PASSWORD!,
+
   firebaseEmail: process.env.FIREBASE_EMAIL!,
   firebasePassword: process.env.FIREBASE_PASSWORD!,
+
+  facebookAccessToken: process.env.FACEBOOK_ACCESS_TOKEN!,
+  facebookPageId: process.env.FACEBOOK_PAGE_ID!,
+
+  whatsappPhoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID!,
 };
 
 export const getAvatar = () => {

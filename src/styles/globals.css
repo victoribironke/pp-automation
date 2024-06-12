@@ -96,3 +96,7 @@ select {
   border-top: var(--size) solid black;
   top: 55%;
 }
+
+input {
+  color-scheme: dark;
+}

@@ -20,7 +20,7 @@ const Image = ({ seed, type, timestamp }: Item) => {
         alt={datetime}
         data-tooltip-id={seed}
         data-tooltip-content={datetime}
-        className="w-full max-w-[5rem] md:max-w-[7rem] rounded-md cursor-pointer"
+        className="rounded-md cursor-pointer w-[25%] max-w-[3.8rem] sm:max-w-[6rem]"
       />
 
       <Tooltip
