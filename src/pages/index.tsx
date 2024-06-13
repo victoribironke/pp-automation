@@ -17,20 +17,14 @@ const Home = () => {
     (async () => {
       const res = await getDocs(collection(db, "twitter"));
 
-      res.forEach((t) => twitterImages.push(t.data() as Item));
+      res.forEach((t) => {
+        const d = t.data() as Item;
+        const date = (d.timestamp as any).toDate().toISOString().split("T")[0];
 
-      setTWTImages(
-        twitterImages
-          .filter((i) => {
-            const date = (i.timestamp as any)
-              .toDate()
-              .toISOString()
-              .split("T")[0];
+        if (date === day) twitterImages.push(d);
+      });
 
-            return date === day;
-          })
-          .sort((a, b) => (a.seed > b.seed ? 1 : -1))
-      );
+      setTWTImages(twitterImages.sort((a, b) => (a.seed > b.seed ? 1 : -1)));
     })();
   }, [day]);
 
@@ -55,7 +49,6 @@ const Home = () => {
           type="date"
           value={day}
           min="2024-06-11"
-          max={today}
           onChange={(e) => setDay(e.target.value)}
           className="py-2 px-3 border border-white bg-transparent text-white rounded-lg"
         />
