@@ -4,7 +4,6 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import {
   collection,
   doc,
-  getDoc,
   getDocs,
   serverTimestamp,
   setDoc,
