@@ -43,7 +43,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    res.status(200).json({ data: response.data.profile_image_url_https });
+    res.status(200).json({
+      data: response.data.profile_image_url_https.replace(
+        "normal.jpg",
+        "400x400.jpg"
+      ),
+    });
   } catch (e: any) {
     console.error("Error retrieving data", e.data);
 
